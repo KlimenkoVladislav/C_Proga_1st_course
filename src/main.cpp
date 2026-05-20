@@ -73,23 +73,23 @@ int main() {
 
                     // Фильтры (оценка 5)
                     case sf::Keyboard::G:
-                        // TODO:
+                        applyGrayscale(canvas);
                         break;
                     case sf::Keyboard::N:
-                        // TODO:
+                        applyNegative(canvas);
                         break;
                     case sf::Keyboard::M:
-                        // TODO:
+                        applyBlur(canvas);
                         break;
 
                     // Изменение размера кисти (оценка 4)
                     case sf::Keyboard::Add:
                     case sf::Keyboard::Equal:
-                        // TODO: увеличить brushRadius на 1, но не более 20
+                        if (brushRadius < 20) brushRadius++;
                         break;
                     case sf::Keyboard::Hyphen:
                     case sf::Keyboard::Subtract:
-                        // TODO: уменьшить brushRadius на 1, но не менее 1
+                        if (brushRadius > 1) brushRadius--;
                         break;
 
                     // Выбор цвета из палитры по цифрам (оценка 4)
@@ -104,7 +104,10 @@ int main() {
                     case sf::Keyboard::Num8:
                     case sf::Keyboard::Num9: {
                         int idx = event.key.code - sf::Keyboard::Num0;
-                        // TODO: если idx в пределах palette, установить selectedPaletteIndex и currentColor
+                        if (idx >= 0 && idx < (int)palette.size()) {
+                            selectedPaletteIndex = idx;
+                            currentColor = palette[selectedPaletteIndex];
+                        }
                         break;
                     }
                     default: break;
@@ -158,8 +161,15 @@ int main() {
                 sf::Vector2i mouse = sf::Mouse::getPosition(window);
                 int paletteY = HEIGHT * PIXEL_SIZE + 50;
                 if (mouse.y >= paletteY && mouse.y <= paletteY + 30) {
-                    // TODO: пройти по palette, определить по mouse.x какой выбран прямоугольник
-                    // обновить selectedPaletteIndex и currentColor
+                    for (size_t i = 0; i < palette.size(); ++i) {
+                        int boxLeft = 10 + i * 35;
+                        int boxRight = boxLeft + 30;
+                        if (mouse.x >= boxLeft && mouse.x <= boxRight) {
+                            selectedPaletteIndex = i;
+                            currentColor = palette[selectedPaletteIndex];
+                            break;
+                        }
+                    }
                 }
             }
         }
