@@ -39,7 +39,10 @@ void Algorithm_Dijkstra_and_Reverse_Polish_Entry(const std::string &expression){
         {'-', 1},
         {'*', 2},
         {'/', 2},
-        {'^', 3}
+        {'^', 3},
+        {'r', 4},
+        {'s', 4},
+        {'c', 4}
     };
 
     std::stack<float> digits;
@@ -54,7 +57,13 @@ void Algorithm_Dijkstra_and_Reverse_Polish_Entry(const std::string &expression){
             digit += '-';
         }
         else if (elem == 'p'){
-            digits.push(M_PI);
+            if (digit[0] == '-'){
+                digits.push(M_PI * (-1));
+                digit.clear();
+            }
+            else {
+                digits.push(M_PI);
+            }
         }
         else {
             if (!digit.empty()){

@@ -37,7 +37,6 @@ int main(){
                 INPUT_INFO(expression);
                 expression = validator(expression);
                 if (!expression.empty()){
-                    INFO(3, expression);
                     Algorithm_Dijkstra_and_Reverse_Polish_Entry(expression);
                 }
                 else { ERROR(1); return -1; }
